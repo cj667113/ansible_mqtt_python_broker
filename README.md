@@ -1,6 +1,6 @@
 # ANSIBLE MQTT PYTHON BROKER
 
-Ansible script to install hbmqtt broker.
+Ansible script to install a MQTT Broker.
 
 ## cred.conf
 
