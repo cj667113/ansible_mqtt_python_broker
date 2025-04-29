@@ -14,6 +14,11 @@
         name: epel-release
         state: present
 
+    - name: Check if Python 3.7 is already installed
+      stat:
+        path: /usr/local/bin/python3.7
+      register: python37_installed
+
     - name: Install required dependencies for Python 3.7
       dnf:
         name:
@@ -23,27 +28,50 @@
           - libffi-devel
           - zlib-devel
         state: present
+        when: not python37_installed.stat.exists
 
     - name: Download Python 3.7 source
       get_url:
         url: https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz
         dest: /tmp/Python-3.7.9.tgz
+      when: not python37_installed.stat.exists
 
     - name: Extract Python 3.7 source
       unarchive:
         src: /tmp/Python-3.7.9.tgz
         dest: /tmp
         remote_src: yes
+      when: not python37_installed.stat.exists
 
     - name: Build and install Python 3.7
       command: ./configure --enable-optimizations
       args:
         chdir: /tmp/Python-3.7.9
+      when: not python37_installed.stat.exists
 
     - name: Make and install Python 3.7
       command: make altinstall
       args:
         chdir: /tmp/Python-3.7.9
+      when: not python37_installed.stat.exists
+
+    - name: Register python3.7 with alternatives
+      alternatives:
+        name: python3
+        link: /usr/bin/python3
+        path: /usr/local/bin/python3.7
+        priority: 100
+
+    - name: Set python3 alternative to python3.7
+      command: alternatives --set python3 /usr/local/bin/python3.7
+
+    - name: Verify python3 version
+      command: python3 --version
+      register: python3_version
+
+    - name: Display current python3 version
+      debug:
+        msg: "Default python3 version is now: {{ python3_version.stdout }}"
 
     - name: Install required system packages
       dnf:
