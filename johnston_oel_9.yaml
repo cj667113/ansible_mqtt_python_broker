@@ -1,0 +1,34 @@
+---
+- name: Configure MQTT Server on Oracle Linux 9
+  hosts: all
+  become: true
+  tasks:
+    - name: Update all system packages
+      dnf:
+        name: '*'
+        state: latest
+
+    - name: Install required system packages
+      dnf:
+        name:
+          - python3-pip
+          - git
+          - whois
+        state: present
+
+    - name: Ensure pip is up to date
+      pip:
+        name: pip
+        state: latest
+        executable: pip3
+
+    - name: Install hbmqtt using pip
+      pip:
+        name: hbmqtt
+        executable: pip3
+
+    - name: Clone MRPS repository
+      git:
+        repo: https://github.com/cj667113/mrp
+        dest: /opt/mrp
+        version: master
