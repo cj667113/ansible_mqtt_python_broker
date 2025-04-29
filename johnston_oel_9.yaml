@@ -26,6 +26,13 @@
       pip:
         name: hbmqtt
         executable: pip3
+        
+    - name: Install websockets 8.1
+      pip:
+        name: websockets
+        version: 8.1
+        executable: pip3
+        state: present
 
     - name: Clone MRPS repository
       git:
