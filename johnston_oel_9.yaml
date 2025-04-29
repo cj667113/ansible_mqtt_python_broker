@@ -28,7 +28,7 @@
           - libffi-devel
           - zlib-devel
         state: present
-        when: not python37_installed.stat.exists
+      when: not python37_installed.stat.exists
 
     - name: Download Python 3.7 source
       get_url:
