@@ -16,6 +16,9 @@ openssl passwd -6 '<PASSWORD>'
 
 Place this file in the / directory.
 
+## mqtt.conf
+Move the mqtt.conf file to /mqtt.conf
+
 ## Execute the startup.sh
 
 This will run the Broker in the background.
