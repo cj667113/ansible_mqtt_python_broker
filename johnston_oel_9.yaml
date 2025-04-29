@@ -92,10 +92,10 @@
         name: amqtt
         executable: pip3
         
-    - name: Install websockets 8.1
+    - name: Install websockets 9.0
       pip:
         name: websockets
-        version: 8.1
+        version: 9.0
         executable: pip3
         state: present
 
