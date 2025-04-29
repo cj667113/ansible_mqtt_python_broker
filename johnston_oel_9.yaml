@@ -45,14 +45,6 @@
       args:
         chdir: /tmp/Python-3.7.9
 
-    - name: Check Python version
-      command: python3.7 --version
-      register: python_version_output
-
-    - name: Show Python version
-      debug:
-        msg: "Python version installed: {{ python_version_output.stdout }}"
-
     - name: Install required system packages
       dnf:
         name:
@@ -69,7 +61,7 @@
 
     - name: Install hbmqtt using pip
       pip:
-        name: hbmqtt
+        name: amqtt
         executable: pip3
         
     - name: Install websockets 8.1
