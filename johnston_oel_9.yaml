@@ -8,6 +8,51 @@
         name: '*'
         state: latest
 
+  tasks:
+    - name: Enable EPEL repository
+      dnf:
+        name: epel-release
+        state: present
+
+    - name: Install required dependencies for Python 3.7
+      dnf:
+        name:
+          - gcc
+          - openssl-devel
+          - bzip2-devel
+          - libffi-devel
+          - zlib-devel
+        state: present
+
+    - name: Download Python 3.7 source
+      get_url:
+        url: https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz
+        dest: /tmp/Python-3.7.9.tgz
+
+    - name: Extract Python 3.7 source
+      unarchive:
+        src: /tmp/Python-3.7.9.tgz
+        dest: /tmp
+        remote_src: yes
+
+    - name: Build and install Python 3.7
+      command: ./configure --enable-optimizations
+      args:
+        chdir: /tmp/Python-3.7.9
+
+    - name: Make and install Python 3.7
+      command: make altinstall
+      args:
+        chdir: /tmp/Python-3.7.9
+
+    - name: Check Python version
+      command: python3.7 --version
+      register: python_version_output
+
+    - name: Show Python version
+      debug:
+        msg: "Python version installed: {{ python_version_output.stdout }}"
+
     - name: Install required system packages
       dnf:
         name:
