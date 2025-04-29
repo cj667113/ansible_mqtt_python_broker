@@ -17,6 +17,6 @@
      command sudo apt-get install whois -y
    - name: Install hbmqtt
      pip:
-        name: hbmqtt
+        name: amqtt
    - name: Install MRPS
      command: git clone https://github.com/cj667113/mrp
