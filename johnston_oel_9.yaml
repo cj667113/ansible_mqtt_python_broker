@@ -1,5 +1,5 @@
 ---
-- name: Configure MQTT Server on Oracle Linux 9
+- name: Configure MQTT Broker on Oracle Linux 9
   hosts: all
   become: true
   tasks:
